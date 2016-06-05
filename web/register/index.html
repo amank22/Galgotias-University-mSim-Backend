@@ -1,0 +1,140 @@
+<html encoding="utf-8">
+<head>
+<script type="text/javascript">
+    if(localStorage.getItem("logedin")=='true'&&localStorage.getItem("email")!=='kapoor.aman22@gmail.com'){
+        window.location.href = "./../../";
+    }else if(localStorage.getItem("logedin")!='true'){
+        window.location.href = "./../../";
+    }
+</script>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+<script src="SpryAssets/SpryValidationPassword.js" type="text/javascript"></script>
+<link href="main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$("document").ready(function(){
+$("#loginbutton").click(function(){
+        $(".the-return").html("");
+   document.getElementById("logindiv").style.visibility="visible";
+	document.getElementById("regdiv").style.visibility="hidden";
+    document.getElementById("headtext").innerHTML = "Login";
+});
+	
+$(".register").submit(function(e){
+    e.preventDefault();
+var data = $(this).serialize();
+$(".the-return").html("Registering...");
+$.ajax({
+type: "POST",
+dataType: "json",
+url: "../../v1/user/register",
+data: data,
+success: function(data) {
+    if(data["result"]==='User Already Exists'){
+            $(".the-return").html(data['result']);
+    }else{
+        $(".the-return").html("");
+    document.getElementById("logindiv").style.visibility="visible";
+	document.getElementById("regdiv").style.visibility="hidden";
+    document.getElementById("headtext").innerHTML = "Login";
+ }
+
+},
+error: function(data){
+    $(".the-return").html("Registration Failed!.");
+}
+});
+return false;
+});
+$(".loginform").submit(function(e){
+    e.preventDefault();
+var data = $(this).serialize();
+$(".the-return").html("Login in...");
+$.ajax({
+type: "POST",
+dataType: "json",
+url: "../../v1/user/login",
+data: data,
+success: function(data) {
+    if("result" in data){
+            $(".the-return").html(data['result']);
+    }else{
+        if(typeof(Storage) !== "undefined") {
+          // Code for localStorage/sessionStorage.
+		  localStorage.setItem("name", data['name']);
+		  localStorage.setItem("email", data['email']);
+		  localStorage.setItem("apiKey", data['apiKey']);
+		  localStorage.setItem("logedin", "true");
+		  window.location.href = "./web/addNews";
+         } else {
+          alert("Sorry! No Web Storage support..");
+         }
+ }
+
+},
+error: function(data){
+    $(".the-return").html("Registration Failed!"+JSON.stringify(data));
+}
+});
+return false;
+});
+});
+</script> 
+
+<link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css">
+<link href="SpryAssets/SpryValidationPassword.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1 id="headtext">Registration</h1>
+<div id="regdiv" style="background-color:#fe4400; color:white; padding:20px;"> 
+<form action="../../v1/user/register" class="register" method="post">
+<label>Name:</label>
+<span id="sprytextfield2">
+<input type="text" name="name" id="name">
+<span class="textfieldRequiredMsg">Name is Required</span></span>
+<br/><br/>
+<label>Email:</label>
+<span id="sprytextfield1">
+<input type="text" id="email" name="email" value=""/>
+<span class="textfieldRequiredMsg">Email Required.</span></span>
+<br/><br/>
+<label>Password:</label>
+<span id="sprypassword1">
+<input type="password" name="password" id="password">
+<span class="passwordRequiredMsg">A value is required.</span></span><br/><br/>
+<input type="submit" value="Register" />
+</form>
+
+</div>
+<!--Login Button-->
+<input type="submit" class="btn" id="loginbutton" value="Login">
+<!--Login Div-->
+<div id="logindiv" style="background-color:#777777; color:white; padding:20px;visibility: hidden;">
+  <form class="loginform" method="post" action="../../v1/user/login">
+    <span id="sprytextfield3">
+      <label>Email:
+        <input type="text" name="email" id="loginemail">
+      </label>
+      <span class="textfieldRequiredMsg">Email is Required</span></span>
+  <br><br>
+  <span id="sprypassword2">
+      <label for="loginpass">Password:</label>
+      <input type="password" name="password" id="loginpass">
+      <span class="passwordRequiredMsg">Password is required.</span></span>
+      <br/><br/>
+      <input type="submit" value="Login" />
+  </form>
+</div>
+<div class="the-return">
+</div>
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1");
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2");
+var sprypassword1 = new Spry.Widget.ValidationPassword("sprypassword1");
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3");
+var sprypassword2 = new Spry.Widget.ValidationPassword("sprypassword2");
+</script>
+</body>
+</html>

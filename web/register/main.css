@@ -1,0 +1,21 @@
+@charset "utf-8";
+.btn {
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 3px 10px #666666;
+  -moz-box-shadow: 2px 3px 10px #666666;
+  box-shadow: 2px 3px 10px #666666;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 43px;
+  background: #6bd934;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #a33c62;
+  text-decoration: none;
+}
+

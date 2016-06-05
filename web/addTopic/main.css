@@ -1,0 +1,66 @@
+@charset "utf-8";
+.head-text {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 120px;
+	color: #9C6;
+	text-align: center;
+    
+}
+.label-text {
+	font-family: "Courier New", Courier, monospace;
+	font-size: large;
+	color: #4a9;
+}
+
+.form-window {
+	font-family: "Courier New", Courier, monospace;
+	font-size: large;
+	color: #680;
+	alignment-adjust:central;
+	position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+}
+.btn {
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 10px;
+  -webkit-box-shadow: 2px 3px 10px #666666;
+  -moz-box-shadow: 2px 3px 10px #666666;
+  box-shadow: 2px 3px 10px #666666;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 43px;
+  background: #af51a2;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  
+}
+
+.btn:hover {
+  background: #a33c62;
+  text-decoration: none;
+}
+
+.logoutbtn {
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 3px 10px #666666;
+  -moz-box-shadow: 2px 3px 10px #666666;
+  box-shadow: 2px 3px 10px #666666;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #fa5f0f;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  
+}
+
+.logoutbtn:hover {
+  background: #a98e20;
+  text-decoration: none;
+}

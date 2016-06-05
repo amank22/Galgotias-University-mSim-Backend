@@ -1,0 +1,95 @@
+@charset "utf-8";
+
+body{
+	background: url(images/bg.jpg);
+	background-size: cover;
+	background-repeat: repeat-x;
+	font-family: bree-serif;
+	width:100%;
+}
+
+.form-window {
+	font-size: large;
+	color: #680;
+	align-items:center;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);	
+}
+
+#headtext {
+	color: #F43E3E;
+	width:auto;
+	font-style: normal;
+	text-align: center;
+	border: thin solid #FFFFFF;
+	margin: 2rem;
+	font-weight: 400;
+	font-size: 4rem;
+	-webkit-text-stroke: 2px black;
+	border-radius:1rem;
+	transition: all 0.2s ease-in-out;
+}
+
+#headtext:hover {
+	border-radius:1rem;
+	border: medium solid #FFFFFF;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+
+
+#logindiv{
+	z-index: 5;
+	width: auto;
+	height: auto;
+	font-style: normal;
+	font-weight: 400;
+	text-align: center;
+	color: #1F1F1F;
+	position: relative;
+	right: auto;
+	bottom: auto;
+	margin: auto;
+	padding-top: 0px;
+	padding-right: 25px;
+	padding-bottom: 0px;
+	padding-left: 25px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 2px;
+  display: block;
+  float: none;
+  height: auto;
+  margin: 1rem;
+  position: relative;
+  width: 300px;
+}
+
+.card-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.2s ease-in-out;
+}
+
+.card-1:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.card-2 {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.card-3 {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.card-4 {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.card-5 {
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}

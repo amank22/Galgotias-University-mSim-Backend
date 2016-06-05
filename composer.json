@@ -1,0 +1,26 @@
+    {
+        "name": "TeenScribblers/GU",
+        "description": "Galgotias University",
+        "require": {
+            "entomb/slim-json-api": "dev-master",
+            "monolog/monolog": "~1.7",
+            "slim/slim": "2.4.*",
+            "slim/extras": "*",
+            "mandrill/mandrill": "1.0.*"
+
+        },
+        "require-dev": {
+          "heroku/heroku-buildpack-php": "*"
+        },
+        "authors": [
+            {
+                "name": "Aman Kapoor",
+                "email": "kapoor.aman22@gmail.com"
+            }
+        ],
+        "autoload": {
+            "psr-4": {
+                "SOURCEPATH\\": "src"
+            }
+        }
+    }

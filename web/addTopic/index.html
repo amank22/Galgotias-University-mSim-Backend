@@ -1,0 +1,75 @@
+<html>
+<head>
+    <script type="text/javascript">
+        if(localStorage.getItem("logedin")!=='true'){
+        window.location.href = "./../../";
+        }
+        if(localStorage.getItem("email")!=='kapoor.aman22@gmail.com'){
+        window.location.href = "./../../";
+        }
+    </script>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<link href="main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$("document").ready(function(){
+	$("#logout").click(function(e) {
+        localStorage.removeItem("logedin");
+		localStorage.removeItem("name");
+		localStorage.removeItem("email");
+		localStorage.removeItem("apiKey");
+		window.location.href = "./../../";
+    });
+
+ $('#formup').submit(function(e) {
+  e.preventDefault();
+  $(".the-return").html("Starting Updating");
+    var data={
+            note: document.getElementById('note').value
+        };
+	 $(".the-return").html("Updating with:"+data.note);
+		$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: "../../v1/topic/add",
+		data: data,
+		beforeSend: function (request)
+            {
+                request.setRequestHeader("Authorization",localStorage.getItem("apiKey"));
+            },
+		success: function(data) 
+		{
+           $(".the-return").html("Topics Sent for Updation!");
+
+		},
+		error: function(data){
+    	$(".the-return").html("Topic Updation Failed before Server");
+		}
+});
+  
+});
+});
+</script>
+</head>
+<body>
+
+<div class="form-window">
+<div class="head-text">
+<span ><span class="head-text"><strong class="move-to-center">Add News</strong></span></span>
+</div>
+<form id="formup" name="formup" method="post" action="">
+  <label for="note" class="label-text">Note</label>
+  <br/>
+  <textarea name="note" id="note" cols="45" rows="5"></textarea>
+  <br/><br/>
+  <button type="submit" class="btn">Update</button>
+    <button type="reset" value="Reset">Reset</button>
+</form>
+<div class="the-return"></div>
+<div>
+<button id="logout" class="logoutbtn">LogOut</button>
+</div>
+</div>
+</body>
+</html>
