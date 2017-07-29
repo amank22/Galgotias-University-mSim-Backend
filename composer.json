@@ -6,7 +6,8 @@
             "monolog/monolog": "~1.7",
             "slim/slim": "2.4.*",
             "slim/extras": "*",
-            "mandrill/mandrill": "1.0.*"
+            "mandrill/mandrill": "1.0.*",
+             "ext-mongo": "*"
 
         },
         "require-dev": {

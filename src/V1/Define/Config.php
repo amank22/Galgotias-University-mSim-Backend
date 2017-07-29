@@ -38,6 +38,13 @@ define('DB_HOST', "mysql:host=$host;");
 define('DB_PORT', "port=$port");
 define('DB_NAME', "dbname=$dbname;");
 
+$m_url = getenv("MONGODB_URI");
+$m_parsed_url=parse_url(getenv("MONGODB_URI"));
+$m_dbname=substr($m_parsed_url["path"],1);
+define('M_DB_STRING', $m_url);
+define('M_DB_NAME', "$m_dbname");
+define('M_DB_COLLECTION', "students");
+
 define('USER_LOGEDIN_SUCCESSFULLY', 0);
 define('USER_NOT_EXIST', 1);
 define('USER_LOGIN_INCORRECT', 2);
@@ -45,3 +52,5 @@ define('USER_LOGIN_INCORRECT', 2);
 define('USER_CREATED_SUCCESSFULLY', 0);
 define('USER_CREATE_FAILED', 1);
 define('USER_ALREADY_EXISTED', 2);
+define('INSERT_COL_SUCCESS', 3);
+define('INSERT_COL_FAILED', 4);

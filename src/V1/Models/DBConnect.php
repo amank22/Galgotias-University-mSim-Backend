@@ -9,6 +9,7 @@
 namespace SOURCEPATH\V1\Models;
 
 use PDO;
+use MongoClient;
 include_once dirname(__FILE__) . '/../Define/Config.php';
 /**
  * Description of DBConnect
@@ -24,6 +25,19 @@ class DBConnect {
             $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         }
         return $db;
+    }
+    public static function get_mongo_db() {
+        static $mdb = null;
+        if (null === $mdb) {
+        	try {
+        	$options = array("connectTimeoutMS" => 30000);
+            $mdb_connection = new MongoClient(M_DB_STRING, $options);
+            $mdb = $mdb_connection->selectDB(M_DB_NAME);
+            } catch (MongoConnectionException $e) {
+			      echo "Cannot Connect to MongoDB";
+		    }
+        }
+        return $mdb;
     }
 
 }

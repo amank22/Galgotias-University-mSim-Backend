@@ -30,34 +30,29 @@ require_once dirname(__FILE__) . '/../../lib/simple_html_dom.php';
 use SOURCEPATH\V1\Models\MainModel;
 use SOURCEPATH\V1\Models\SimHelper;
 
-
 $app->get('/sim/captcha', function() use ($app) {
     $captchaurl = 'http://182.71.87.38/iSIM/Student/capimage';
     $loginurl = 'http://182.71.87.38/iSIM/Login';
     $simHelper = new SimHelper();
-    $result = $simHelper->login_get($app,$loginurl, $captchaurl);
+    $result = $simHelper->login_get($app, $loginurl, $captchaurl);
     if (isset($result['error'])) {
         MainModel::resultreached($app, 'Error in Captcha.Please Retry', TRUE);
     } else {
-        $app->render(200, ["params"=>$result]);
+        $app->render(200, $result);
     }
 });
 
 $app->post('/sim/login', function() use ($app) {
     // check for required params
-    $para = ['username', 'password', 'captcha'];
-    $result1 = MainModel::verifyRequiredParams($para);
-    if ($result1 != 'done') {
-        MainModel::resultreached($app, $result1, true);
-    }
     $user = $app->request->post('username');
     $pass = $app->request->post('password');
     $captcha = $app->request->post('captcha');
+    $cookies=$app->request->post('cookies');
     $loginurl = 'http://182.71.87.38/iSIM/Login';
     $simHelper = new SimHelper();
-    $params;//get parameters from post request
+    $params=$app->request->post(); //get parameters from post request
     $loginparm = $simHelper->create_login_params($params, $user, $pass, $captcha);
-    $result = $simHelper->login_post($loginurl, $loginparm);
+    $result = $simHelper->login_post($loginurl, $loginparm,$cookies);
     if ($result == false) {
         MainModel::resultreached($app, 'Error Logging in.Please Retry', TRUE);
     } else {

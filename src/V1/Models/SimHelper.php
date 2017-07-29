@@ -27,7 +27,6 @@
 namespace SOURCEPATH\V1\Models;
 
 use SOURCEPATH\V1\Models\Snoopy;
-use SOURCEPATH\V1\Models\MainModel;
 
 class SimHelper {
 
@@ -40,7 +39,8 @@ class SimHelper {
         $snoopy->maxredirs = 0;
         $snoopy->agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/50.0.2661.102 Chrome/50.0.2661.102 Safari/537.36";
         if ($cookies != NULL) {
-            $snoopy->cookies = $cookies;
+            $cok=explode('~',$cookies);
+            $snoopy->cookies[$cok[0]] = $cok[1];
         }
         return $snoopy;
     }
@@ -59,15 +59,14 @@ class SimHelper {
                 $result[$element->name . '~' . $element->title] = $element->value;
             }
         }
-        $result['captcha'] = $this->captcha_get($app,$snoopy, $captchaurl);
+        $result['captcha'] = $this->captcha_get($app, $snoopy, $captchaurl);
         $result['cookies'] = $cookies;
         return [$result];
     }
 
-    private function captcha_get($app,$snoopy, $url) {
+    private function captcha_get($app, $snoopy, $url) {
         if ($snoopy->fetch($url)) {
             $imgbase64 = chunk_split(base64_encode(explode('<!DOCTYPE', $snoopy->results, 2)[0]));
-            MainModel::writelog($app, '----Captcha----'.$imgbase64.'----Captcha----');
             return $imgbase64;
         }
         return NULL;
@@ -75,16 +74,16 @@ class SimHelper {
 
     function login_post($loginurl, $formvars, $cookies) {
         $snoopy = $this->init($cookies);
-        if (!$snoopy->submit($loginurl, $formvars)) {
-            return false;
+        if (!$snoopy->submittext($loginurl, $formvars)) {
+//            return false;
         }
-//    $content = $snoopy->results;
+    return ["data"=>$snoopy->results.'-----------'.implode('()',$snoopy->spostrequest)];
 ////    $html = str_get_html($content);
 ////    update_states($html);
 //    echo $content;
-        if ($snoopy->response_code == 302) {
-            return true;
-        }
+//        if ($snoopy->response_code == 302) {
+//            return true;
+//        }
 
         return false;
     }
@@ -92,8 +91,10 @@ class SimHelper {
     function create_login_params($login_g, $username, $password, $code) {
         foreach ($login_g as $key => $value) {
             $karr = explode('~', $key);
-            if ($key == 'captcha~' || $key == 'error~') {
+            if ($key == 'captcha' || $key == 'cookies') {
                 //ignoring
+            } elseif ($key == 'username' || $key == 'password') {
+                
             } elseif ($karr[1] === 'User ID') {
                 $loginparm[$karr[0]] = $username;
             } elseif ($karr[1] === 'Password') {
@@ -104,12 +105,6 @@ class SimHelper {
                 $loginparm[$karr[0]] = $value;
             }
         }
-        global $states;
-        foreach ($states as $key => $value) {
-            $loginparm[$key] = $value;
-        }
-        $loginparm['__LASTFOCUS'] = NULL;
-        $loginparm['__EVENTTARGET'] = NULL;
         return $loginparm;
     }
 
@@ -126,9 +121,9 @@ class SimHelper {
 
     private function get_cookies_array($app, $headers) {
         $cookies = [];
-        $values='';
+        $values = '';
         while (list($key, $val) = each($headers)) {
-            $values.=' '.$val;
+            $values.=' ' . $val;
             if (strpos($val, 'Set-Cookie') !== false) {
                 $va = str_replace('Set-Cookie:', '', $val);
                 $c = array_slice(explode(";", $va), 0, -2);

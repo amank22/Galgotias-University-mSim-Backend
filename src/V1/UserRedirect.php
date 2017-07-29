@@ -140,6 +140,12 @@ $app->post('/student/register', function() use ($app) {
     
     $db = new DbHandler();
     $res = $db->registerStudent($adm_no,$name, $email, $gcm_id);
+
+    $allPostVars = $app->request->post();
+    unset($allPostVars['adm_no']);
+    $allPostVars["_id"]= $adm_no;
+    $db->insert_student_to_mongo($allPostVars, $adm_no);
+
     if ($res == USER_CREATED_SUCCESSFULLY) {
             $response['error'] = false;
             $response['message'] = 'Student GCM Registration Success';
@@ -150,4 +156,45 @@ $app->post('/student/register', function() use ($app) {
     } else if ($res == USER_ALREADY_EXISTED) {
         MainModel::resultreached($app, 'Student Already Registered', false);
     }
+});
+
+$app->post('/student/update',function() use ($app) {
+    // check for required params
+    $result1 = MainModel::verifyRequiredParams(array('adm_no'));
+    if ($result1 != 'done') {
+        MainModel::resultreached($app, $result1, true);
+    }
+    // reading post params
+    $allPostVars = $app->request->post();
+    $adm_no=$app->request->post('adm_no');
+    unset($allPostVars['adm_no']);
+    $exam_result=$app->request->post('result');
+    unset($allPostVars['result']);
+    $decoded= json_decode($exam_result, true);
+    $allPostVars['results'] = $decoded;
+    $allPostVars["_id"]= $adm_no;
+    $db = new DbHandler();
+    $res = $db->insert_student_to_mongo($allPostVars, $adm_no);
+    if ($res == INSERT_COL_SUCCESS) {
+            $response['error'] = false;
+            $response['message'] = 'Student Details Update Success';
+            MainModel::writelog($app, 'Success Student Update:' . implode('-', $response));
+            $app->render(200, $response);
+    } else if ($res == INSERT_COL_FAILED) {
+        MainModel::resultreached($app, 'Student Details Update Failed', true);
+    }
+});
+$app->post('/student/read', 'authenticate', function() use ($app) {
+    
+    $db = new DbHandler();
+    $res = $db->get_all_students_from_mongo();
+    $result = [];
+    foreach ($res as $doc) {
+        $result[$doc['_id']]=$doc;
+    }
+    $response['error'] = false;
+    $response['message'] = 'Student Details Read Success';
+    $response['data'] = json_encode($result);
+    MainModel::writelog($app, 'Success Student Read:' . implode('-', $response));
+    $app->render(200, $response);
 });

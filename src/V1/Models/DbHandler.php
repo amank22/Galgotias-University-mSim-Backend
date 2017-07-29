@@ -25,8 +25,10 @@
  */
 
 namespace SOURCEPATH\V1\Models;
+include_once dirname(__FILE__) . '/../Define/Config.php';
 
 use PDO;
+use MongoCollection, MongoCursorException;
 use SOURCEPATH\V1\Models\Send_Mail;
 use SOURCEPATH\V1\Models\PassHash;
 
@@ -38,10 +40,14 @@ use SOURCEPATH\V1\Models\PassHash;
 class DbHandler {
 
     private $conn;
+    private $mongo_conn;
+    private $col;
 
     function __construct() {
         // opening db connection
         $this->conn = DBConnect::getdb();
+        $this->mongo_conn=DBConnect::get_mongo_db();
+        $this->col = new MongoCollection($this->mongo_conn, M_DB_COLLECTION);
     }
 
     /* ------------- `users` table method ------------------ */
@@ -282,6 +288,25 @@ class DbHandler {
             return NULL;
         }
     }
+
+  public function get_all_students_from_mongo() {
+    $cur = $this->col->find();
+    return $cur;
+  }
+
+   public function insert_student_to_mongo($student_array, $adm_no) {
+    //Insert to collection
+    try {
+      $cur = $this->col->update(array('_id' => $adm_no),
+                                array('$set'=>$student_array),
+                                array("upsert" => true));
+      return INSERT_COL_SUCCESS;
+    }
+    catch (MongoCursorException $e) {
+       var_dump($e);
+      return INSERT_COL_FAILED;
+    }
+  }
 
 
 }
