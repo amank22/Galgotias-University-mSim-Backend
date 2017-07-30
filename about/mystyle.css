@@ -1,46 +1,57 @@
-body{
+*{
+	font-family: 'Comfortaa', cursive;
+}
+html, body{
 	background: #fff;
 	padding: 0px;
+	width: 100%;
+	height: 100%;
 	}
 #container{
 	margin: 0px;
 	padding:0px;
 	width: 100%;
+	height: 100%;
 	}
 #main-text{
-	margin-top: 25%;
-	margin-left: 0%;
+	display: table-cell;
+    vertical-align: middle;
+	color: #cb356b;
 	}
 
 #main-container{
 	margin:0px;
 	width:100%;
-	}
-
-#main-container-overlay{
-	margin:0px;
-	height: 100%;
-	width:100%;
-	z-index: 10;
-	background: #cb356b; /* fallback for old browsers */
-  	background: -webkit-linear-gradient(to bottom, #cb356b, #bd3f32); /* Chrome 10-25, Safari 5.1-6 */
-  	background: linear-gradient(to bottom, #cb356b, #bd3f32); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	}
+	height: 60%;
+	display: table;
+	background: url('repeat_bg.png');
+	background-repeat: repeat;
+}
 	
 #secondary-container{
 	margin: 0px;
+	padding-left: 30px;
 	padding-top: 25px;
 	background: #fff;
 	width: 100%;
 	padding-bottom: 20px;
 	}
 #heading-2{
-	padding-left: 30px;
-	border-bottom: solid 2px #ccc;
+	display: inline-block;
+  	position: relative;
 	margin-bottom: 10px;
+	color: #303030;
 	}
+
+#heading-2:after {
+  position: absolute;
+  content: '';
+  border-bottom: solid 1px #ccc;
+  left: 15px;
+  right: 15px;
+}
+
 #heading-3{
-	padding: 15px;
 	border-bottom: solid 1px #ccc;
 	color: #4d4d4d;
 	margin-bottom: 15px;
@@ -48,7 +59,7 @@ body{
 #round-image{
 	margin-top: 20px;
 	float: center;
-	background: url(emilia.jpg);
+	background: url(aman.png);
 	height: 150px;
 	width: 150px;
 	margin-left: 30%;
