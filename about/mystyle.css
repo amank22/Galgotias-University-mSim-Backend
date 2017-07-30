@@ -59,12 +59,53 @@ html, body{
 #round-image{
 	margin-top: 20px;
 	float: center;
-	background: url(aman.png);
 	height: 150px;
 	width: 150px;
 	margin-left: 30%;
-	border-radius: 75px;
-	}
+	border-radius: 50%;
+	position: relative;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	cursor: default;
+	box-shadow: 
+		inset 0 0 0 2px rgba(203,5,45,0.6),
+		0 1px 1px rgba(0,0,0,0.1);
+	transition: all 0.4s ease-in-out;
+}
+
+#round-image:hover {
+	box-shadow: 
+		inset 0 0 0 1px rgba(255,255,255,0.1),
+		0 1px 2px rgba(0,0,0,0.1);
+}
+
+.ch-info {
+	position: absolute;
+	background: rgba(203,5,45, 0.8);
+	width: inherit;
+	height: inherit;
+	border-radius: 50%;
+	overflow: hidden;
+	opacity: 0;
+	transition: all 0.4s ease-in-out;
+	transform: scale(0);
+}
+#round-image:hover .ch-info {
+	transform: scale(1);
+	opacity: 1;
+}
+
+.ch-info h5 {
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 16px;
+	margin: 0 30px;
+	padding: 45px 0 0 0;
+	height: 140px;
+	text-shadow: 
+		0 0 1px #fff, 
+		0 1px 2px rgba(0,0,0,0.3);
+}
 #text{
 	padding-top: 25px;
 	font: arial 20px;
